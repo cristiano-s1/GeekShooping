@@ -1,4 +1,16 @@
+using GeekShooping.ProductAPI.Model.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
+}
+
+builder.Services.AddDbContext<SqlServerContext>(options => options.UseSqlServer(connectionString));
 
 // Add services to the container.
 
